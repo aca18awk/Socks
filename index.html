@@ -1,0 +1,80 @@
+<html>
+  <head>
+    <title></title>
+    <meta content="">
+    <link rel="stylesheet" type=" "href="style.css">
+  </head>
+  <body>
+    <div class="nav-bar"></div>
+    <div id="app">
+
+      <div class="product">
+    
+        <div class="product-image">
+          <!-- DISPLAY IMAGES, LINKS: -->
+          <!--v-bind: (:) dinamically binds attribution to the expression so
+              if src changes, images changes as well  -->
+          <!-- <a :href="link"> See the tutorial</a>  -->              
+          <img :src="image" />
+        </div>
+    
+        <div class="product-info">
+          <h1>{{ title }}</h1>
+          <!-- CONDITIONS: -->
+          <!-- <p v-show="instock">v-show</p>
+          more efficient - changes display to none, does not remove
+          element from page, but it doesnt work with else  -->
+          <p v-if="instock > 10">In stock</p>
+          <p v-else-if="instock <= 10 && instock > 0">Last chance!</p>
+          <p v-else :class="{ outOfStock: instock==0 }">Out of Stock</p>
+          <!-- LIST COMPREHENSION: -->
+          <ul>
+            <li v-for="detail in details">{{detail}}</li>
+          </ul>
+          
+          <div v-for="(variant, index) in variants" 
+               :key="variant.varID"
+               class="color-box"
+               :style="{backgroundColor: variant.varColour}"
+               @mouseover="changeImage(index)">
+            <!-- v-on: is @ -->
+            <!-- we can use @ with mouseover, click, submit, keyup.enter -->
+          </div>
+          <!-- <br><a>Available sizes: </a>
+          <a v-for="s in size">{{s}} </a> -->
+          <br>
+          <!-- <button v-on:click="cart+=1"> Add to cart</button> -->
+          <!-- :class="{class_if_true1: condition1, class_if_true2: condition2}" -->
+          <button v-on:click="addToCart" 
+                  :disabled="instock==0"
+                  :class="{disabledButton: instock==0}">
+                  Add to cart</button>
+          <br>
+          <button v-on:click="removeFromCart" 
+                  :disabled="variants[selected].ordered==0"
+                  :class="{disabledButton: variants[selected].ordered==0}">
+                  Remove item</button>
+        <br>
+        </div>
+
+        <div class="cart">
+          <p>Cart:</p>
+          <div v-for="(variant, index) in variants" 
+          :key="variant.varID"
+          class="color-box"
+          :style="{backgroundColor: variant.varColour}">{{variant.ordered}}</div>
+        </div>
+        <div class="order">
+          <button v-on:click="order"
+                  :disabled="cart==0"
+                  :class="{order_button: cart!=0, disabledButton: cart==0}">
+                  Order</button>
+        </div>
+      </div>  
+    </div> 
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+  <script src="script.js"></script>
+  </body>
+</html>
+
+<!-- to reference element from js file: {{name}} -->
